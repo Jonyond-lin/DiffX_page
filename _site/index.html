@@ -339,162 +339,60 @@ of supporting additional modal inputs and outputs.
   </p>
   <p style="text-align:left; font-size: 1.6em; font-weight: bold" class="serif">Ablation Study</p>
   <p style="font-size: 1.4em" class="serif">
-    Firstly, we conduct the ablation study on the Laplacian Pyramid (LP) in our MP-VAE. <br> <br>
-
-    Secondly, we aim to compare the unique-modal generation with the cross-modal RGB+X generation by DiffX. <br> <br>
-
-    Thirdly, we conduct the ablation study on the impact of text captions on SOD → RGB+D and Seg. → RGB+T tasks. <br> <br>
-
-    The experimental results of the above three parts will be presented sequentially below.
+    Firstly, we conduct the ablation study on the Laplacian Pyramid (LP) in our MP-VAE. Secondly, we aim to compare the unique-modal generation with the cross-modal RGB+X generation by DiffX. 
   </p>
 
 
   <div class="row">
-    <div class="col-gallery" style="width: 70%;">
-      <img src="static/gallery/results/LP.png" style="width: 100%;">
+    <div class="col-gallery" style="width: 50%;">
+      <img src="static/gallery/results/LP.png" style="width: 95%;">
       <h3>Ablation study on the Laplacian Pyramid</h3>
     </div>
-    <br>
-    <div class="col-gallery" style="width: 70%;">
-      <img src="static/gallery/results/single-to-dual.png" style="width: 100%;">
-      <h3>Quantitative comparison between the unique-modal results and cross-modal results </h3>
+    <div class="col-gallery" style="width: 40%;">
+      <img src="static/gallery/results/single-to-dual.png" style="width: 95%;">
+      <h3>Comparison between the unique- and cross-modal</h3>
     </div>
-    <br>
+  </div>
+
+
+  <hr style="margin: 30px 0;">
+
+  <!-- <hr style="height: 2px; background-color: #000; border: none; margin: 30px 0;"> -->
+
+
+  <p style="text-align:left; font-size: 1.6em; font-weight: bold" class="serif">Effectiveness of long text captions</p>
+  <p style="font-size: 1.4em" class="serif">
+    We conduct the ablation study on the impact of text captions on SOD → RGB+D and Seg. → RGB+T tasks. The qualitative comparison in Figure 8 shows that DiffX can effectively capture the crucial captions, while the variant model without caption embeddings generates broken or misaligned images, ultimately affecting the image quality.
+  </p>
+
+  <div class="row">
     <div class="col-gallery" style="width: 70%;">
       <img src="static/gallery/results/caption_impact.png" style="width: 100%;">
-      <h3>Impact of text captions</h3>
+      <h3>Impact of text captions in cross-modal generation</h3>
     </div>
-
+  </div>
 
 
   <hr style="margin: 30px 0;">
 
-  <p style="text-align:left; font-size: 1.6em; font-weight: bold" class="serif">Effectiveness of DCTInit</p>
+  <p style="text-align:left; font-size: 1.6em; font-weight: bold" class="serif">Adaptation to Diverse-Modal Generation</p>
   <p style="font-size: 1.4em" class="serif">
-    We demonstrate that the proposed DCTInit can stabilize the video generation process and effectively mitigate sudden motion change; 
-    the DCT frequency domain decomposition method can effectively mitigate the color inconsistency issues caused by the FFT frequency domain decomposition method.
-    The first and second lines prompt "woman smiling" and "robot dancing", respectively
+    Given that DiffX’s can generate cross-modal “RGB+X” images, we also wonder if we can apply this framework to robust, controllable, and versatile generation across diverse modalities? 
+    Therefore, we also conduct experiments on COME15K and MCXFace datasets for “SOD → RGB+D+Edge” and “3DDFA → RGB+NIR+SWIR+T”, respectively.
+    The qualitative results are shown in the figures below, respectively. 
   </p>
 
   <div class="row">
-    <div class="col-gallery" style="width: 20%;">
-      <img src="static/effect_dctinit/0.jpg" style="width: 100%;">
-      <h3>Input Image</h3>
+    <div class="col-gallery" style="width: 35%;">
+      <img src="static/gallery/results/triple.png" style="width: 95%;">
+      <h3>Adaptation to “SOD→RGB+D+Edge”</h3>
     </div>
-    <div class="col-gallery" style="width: 20%;">
-      <video class="clickplay" width="100%" autoplay loop>
-        <source src="static/effect_dctinit/wo_dctinit.mp4" type="video/mp4">
-      </video>
-      <h3>WO DCTInit</h3>
-    </div>
-    <div class="col-gallery" style="width: 20%;">
-      <video class="clickplay" width="100%" autoplay loop>
-        <source src="static/effect_dctinit/w_dctinit.mp4" type="video/mp4">
-      </video>
-      <h3>Ours</h3>
+    <div class="col-gallery" style="width: 58%;">
+      <img src="static/gallery/results/four_modal.png" style="width: 95%;">
+      <h3>Adaptation to “3DDFA→RGB+NIR+SWIR+T”</h3>
     </div>
   </div>
 
-  <div class="row">
-    <div class="col-gallery" style="width: 20%;">
-      <img src="static/dct_vs_fft/0.jpg" style="width: 100%;">
-      <h3>Input Image</h3>
-    </div>
-    <div class="col-gallery" style="width: 20%;">
-      <video class="clickplay" width="100%" autoplay loop>
-        <source src="static/dct_vs_fft/fft.mp4" type="video/mp4">
-      </video>
-      <h3>FFT</h3>
-    </div>
-    <div class="col-gallery" style="width: 20%;">
-      <video class="clickplay" width="100%" autoplay loop>
-        <source src="static/dct_vs_fft/dct.mp4" type="video/mp4">
-      </video>
-      <h3>Ours</h3>
-    </div>
-  </div>
-
-  <hr style="margin: 30px 0;">
-
-  <p style="text-align:left; font-size: 1.6em; font-weight: bold" class="serif">Motion control by prompt</p>
-  <p style="font-size: 1.4em" class="serif">
-    We demonstrate that our method does not rely on complex guiding instructions and even simple textual prompts can yield satisfactory visual effects.
-  </p>
-
-  <div class="row">
-    <div class="col-gallery" style="width: 20%;">
-      <img src="static/motion_control/0.jpg" style="width: 100%;">
-      <h3>Input Image</h3>
-    </div>
-    <div class="col-gallery" style="width: 20%;">
-      <video class="clickplay" width="100%" autoplay loop>
-        <source src="static/motion_control/fireworks.mp4" type="video/mp4">
-      </video>
-      <h3>"Fireworks"</h3>
-    </div>
-    <div class="col-gallery" style="width: 20%;">
-      <video class="clickplay" width="100%" autoplay loop>
-        <source src="static/motion_control/leaves_swaying.mp4" type="video/mp4">
-      </video>
-      <h3>"Leaves Swaying"</h3>
-    </div>
-    <div class="col-gallery" style="width: 20%;">
-        <video class="clickplay" width="100%" autoplay loop>
-          <source src="static/motion_control/lightning.mp4" type="video/mp4">
-        </video>
-        <h3>"Lightning"</h3>
-      </div>
-  </div>
-
-  <hr style="margin: 30px 0;">
-
-  <p style="text-align:left; font-size: 1.6em; font-weight: bold" class="serif">Motion transfer/Video editing</p>
-  <p style="font-size: 1.4em" class="serif">
-    We demonstrate that our proposed method can also be applied to motion transfer and video editing. We use the off-the-shelf image editing method to edit the first frame of the input video.
-  </p>
-
-  <div class="row">
-    <div class="col-gallery" style="width: 20%;">
-        <h3>Original video</h3>
-        <video class="clickplay" width="100%" autoplay loop>
-          <source src="static/video_editing/a_man_walking_on_the_beach/a_man_walking_on_the_beach.mp4" type="video/mp4">
-        </video>
-      </div>
-    <div class="col-gallery" style="width: 20%;">
-      <h3>First frame</h3>
-      <img src="static/video_editing/a_man_walking_on_the_beach/0.jpg" style="width: 100%;">
-    </div>
-    <div class="col-gallery" style="width: 20%;">
-        <h3>Edited first frame</h3>
-        <img src="static/video_editing/a_man_walking_in_the_park/0.jpg" style="width: 100%;">
-      </div>
-    <div class="col-gallery" style="width: 20%;">
-      <h3>Output video</h3>
-      <video class="clickplay" width="100%" autoplay loop>
-        <source src="static/video_editing/a_man_walking_in_the_park/a_man_walking_in_the_park.mp4" type="video/mp4">
-      </video>
-    </div>
-  </div>
-
-    <div class="row">
-        <div class="col-gallery" style="width: 20%;">
-            <video class="clickplay" width="100%" autoplay loop>
-              <source src="static/video_editing/a_corgi_walking_in_the_park_at_sunrise_oil_painting_style/a_corgi_walking_in_the_park_at_sunrise_oil_painting_style.mp4" type="video/mp4">
-            </video>
-          </div>
-        <div class="col-gallery" style="width: 20%;">
-          <img src="static/video_editing/a_corgi_walking_in_the_park_at_sunrise_oil_painting_style/0.jpg" style="width: 100%;">
-        </div>
-        <div class="col-gallery" style="width: 20%;">
-            <img src="static/video_editing/editing_a_corgi_walking_in_the_park_at_sunrise,_oil_painting_style/0.jpg" style="width: 100%;">
-          </div>
-        <div class="col-gallery" style="width: 20%;">
-          <video class="clickplay" width="100%" autoplay loop>
-            <source src="static/video_editing/editing_a_corgi_walking_in_the_park_at_sunrise,_oil_painting_style/editing_a_corgi_walking_in_the_park_at_sunrise,_oil_painting_style.mp4" type="video/mp4">
-          </video>
-        </div>
-
-    </div>
 
 </div>
 
@@ -509,7 +407,7 @@ of supporting additional modal inputs and outputs.
 
 </body>
 
-<!-- <script>
+<script>
 var videos = document.getElementsByClassName("clickplay");
 for (var i = 0; i < videos.length; i++) {
   videos[i].addEventListener("click", function() {
@@ -520,6 +418,6 @@ for (var i = 0; i < videos.length; i++) {
     this.currentTime = 0;
   });
 }
-</script> -->
+</script>
 
 </html>
