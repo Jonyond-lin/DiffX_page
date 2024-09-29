@@ -1,0 +1,945 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Cinemo</title>
+<link href="./styles/style.css" rel="stylesheet">
+<script type="text/javascript" src="./styles/jquery.mlens-1.0.min.js"></script> 
+<script type="text/javascript" src="./styles/jquery.js"></script>
+
+<style>
+  p.serif{
+    font-family:"Times New Roman", Times, serif;
+  }
+  p.sansserif{
+    font-family: Arial, Helvetica, sans-serif;
+  }
+
+  h3 {
+      text-align: center;
+    }
+
+</style>
+
+  
+</head>
+
+<body>
+<div class="content">
+
+<h1><strong>Cinemo: Consistent and Controllable Image Animation with Motion Diffusion Models</strong>&nbsp;&nbsp;<small></small></h1>
+<p id="authors" class="serif">
+    <a href="https://maxin-cn.github.io/">Xin Ma<sup>1</sup></a>
+    <a href="https://wyhsirius.github.io/">Yaohui Wang<sup>2<dag></sup></a>
+    <a href="https://scholar.google.com/citations?user=_04pkGgAAAAJ&hl=zh-CN">Gengyun Jia<sup>3</sup></a>
+    <a href="https://scholar.google.com/citations?user=3fWSC8YAAAAJ">Xinyuan Chen<sup>2</sup></a>
+    <a href="https://users.monash.edu/~yli/">Yuan-Fang Li<sup>1</sup></a> <br>
+    <a href="https://cunjian.github.io/">Cunjian Chen<sup>1</sup></a>
+    <a href="https://scholar.google.com.hk/citations?user=gFtI-8QAAAAJ&hl=zh-CN">Yu Qiao<sup>2</sup></a> 
+    <br>
+    <!-- <a style="font-size: 0.7em"><sup>*</sup>Equal Contribution.</a> <a style="font-size: 0.7em"><sup>✝</sup>Corresponding Author.</a> -->
+    <br>
+    <span style="font-size: 0.8em; margin-top: 0.5em">
+      <a><sup>1</sup>Monash University</a>
+      <a><sup>2</sup>Shanghai Artificial Intelligence Laboratory</a>
+      <a><sup>3</sup>Nanjing University of Posts and Telecommunications</a>
+    </span>
+  </p>
+
+  <font size="+1">
+    <p style="text-align: center;" class="serif">
+      <a href="https://arxiv.org/abs/2407.15642" target="_blank" style="font-weight: bold;">[Paper]</a>&nbsp;&nbsp;&nbsp;&nbsp;
+      <a href="https://github.com/maxin-cn/Cinemo" target="_blank" style="font-weight: bold;">[Github]</a>&nbsp;&nbsp;&nbsp;&nbsp;
+      <!-- <a href="#bibtex" style="font-weight: bold;">[BibTeX]</a> -->
+    </p><br>
+  </font>
+
+  <style>
+    .row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      
+    }
+
+    
+  
+    .col {
+      flex: 1;
+      text-align: center;
+     
+    }
+
+    .head {
+      flex: 1;
+      text-align: center;
+      
+    }
+
+    h3 {
+      
+      font-size: 15px; /* 缩小标题的大小 */
+      
+    }
+  
+  
+    img, video {
+      width: 100%; /* 将图片和视频的宽度设置为100%，以使它们在同一行上大小相匹配 */
+      height: auto;
+    }
+
+   
+
+  </style>
+
+<font size="+1">
+    <p class="serif" style="color: red; font-weight: bold">Click to play results from Cinemo!</Summary></p>
+</font>
+
+<div class="row">
+    <div class="col">
+      <h3>Input Image</h3>
+      <!-- Case 1 Image -->
+      <img class="case-image" src="static/teaser/a_red_panda_eating_bamboo/0.jpg" alt="Case 1 Image" style="width: 100%;">
+      
+    </div>
+    <div class="col">
+      <h3>Animated Video</h3>
+      <!-- Case 1 Video -->
+      <video class="clickplay case-video" width="100%" style="max-width: 100%;" autoplay loop>
+        <source src="static/teaser/a_red_panda_eating_bamboo/a_red_panda_eating_bamboo.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="col">
+      <h3>Input Image</h3>
+      <!-- Case 2 Image -->
+      <img class="case-image" src="static/teaser/car_moving/0.jpg" alt="Case 2 Image" style="width: 100%;">
+    </div>
+    <div class="col">
+      <h3>Animated Video</h3>
+      <!-- Case 2 Video -->
+      <video class="clickplay case-video" width="100%" style="max-width: 100%;" autoplay loop>
+        <source src="static/teaser/car_moving/car_moving.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="col">
+      <h3>Input Image</h3>
+      <!-- Case 3 Image -->
+      <img class="case-image" src="static/teaser/fireworks/0.jpg" alt="Case 5 Image" style="width: 100%;">
+    </div>
+    <div class="col">
+      <h3>Animated Video</h3>
+      <!-- Case 3 Video -->
+      <video class="clickplay case-video" width="100%" style="max-width: 100%;" autoplay loop>
+        <source src="static/teaser/fireworks/fireworks.mp4" type="video/mp4">
+      </video>
+    </div>
+  </div>
+
+  <div class="row">
+
+    <div class="head" >
+      <h3 >"Red Panda Eating Bamboo"</h3>
+    </div>
+
+    <div class="head">
+      <h3>"Car Moving"</h3>
+    </div>
+    
+    <div class="head">
+      <h3>"Fireworks"</h3>
+    </div>
+
+  </div>
+  
+  <div class="row">
+    <div class="col">
+      
+      <!-- Case 1 Image -->
+      <img class="case-image" src="static/teaser/flowers_swaying/0.jpg" alt="Case 1 Image" style="width: 100%;">
+    </div>
+    <div class="col">
+      
+      <!-- Case 1 Video -->
+      <video class="clickplay case-video" width="100%" style="max-width: 100%;" autoplay loop>
+        <source src="static/teaser/flowers_swaying/flowers_swaying.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="col">
+      
+      <!-- Case 2 Image -->
+      <img class="case-image" src="static/teaser/girl_walking_on_the_beach/0.jpg" alt="Case 2 Image" style="width: 100%;">
+    </div>
+    <div class="col">
+      
+      <!-- Case 2 Video -->
+      <video class="clickplay case-video" width="100%" style="max-width: 100%;" autoplay loop>
+        <source src="static/teaser/girl_walking_on_the_beach/girl_walking_on_the_beach.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="col">
+      
+      <!-- Case 3 Image -->
+      <img class="case-image" src="static/teaser/house_rotating/0.jpg" alt="Case 5 Image" style="width: 100%;">
+    </div>
+    <div class="col">
+      
+      <!-- Case 3 Video -->
+      <video class="clickplay case-video" width="100%" style="max-width: 100%;" autoplay loop>
+        <source src="static/teaser/house_rotating/house_rotating.mp4" type="video/mp4">
+      </video>
+    </div>
+  </div>
+
+  <div class="row">
+
+    <div class="head">
+      <h3>"Flowers Swaying"</h3>
+    </div>
+
+    <div class="head">
+      <h3>"Girl Walking on the Beach"</h3>
+    </div>
+    
+    <div class="head">
+      <h3>"House Rotating"</h3>
+    </div>
+
+  </div>
+
+  <div class="row">
+    <div class="col">
+      
+      <!-- Case 1 Image -->
+      <img class="case-image" src="static/teaser/people_runing/0.jpg" alt="Case 1 Image" style="width: 100%;">
+    </div>
+    <div class="col">
+      
+      <!-- Case 1 Video -->
+      <video class="clickplay case-video" width="100%" style="max-width: 100%;" autoplay loop>
+        <source src="static/teaser/people_runing/people_runing.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="col">
+      
+      <!-- Case 2 Image -->
+      <img class="case-image" src="static/teaser/shark_swimming/0.jpg" alt="Case 2 Image" style="width: 100%;">
+    </div>
+    <div class="col">
+      
+      <!-- Case 2 Video -->
+      <video class="clickplay case-video" width="100%" style="max-width: 100%;" autoplay loop>
+        <source src="static/teaser/shark_swimming/shark_swimming.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="col">
+      
+      <!-- Case 3 Image -->
+      <img class="case-image" src="static/teaser/windmill_turning/0.jpg" alt="Case 5 Image" style="width: 100%;">
+    </div>
+    <div class="col">
+      
+      <!-- Case 3 Video -->
+      <video class="clickplay case-video" width="100%" style="max-width: 100%;" autoplay loop>
+        <source src="static/teaser/windmill_turning/windmill_turning.mp4" type="video/mp4">
+      </video>
+    </div>
+  </div>
+
+  <div class="row">
+
+    <div class="head">
+      <h3>"People Runing"</h3>
+    </div>
+
+    <div class="head">
+      <h3>"Shark Swimming"</h3>
+    </div>
+    
+    <div class="head">
+      <h3>"Windmill Turning"</h3>
+    </div>
+
+  </div>
+
+</p>
+
+  
+
+</div>
+
+<div class="content">
+    <p style="text-align:left; font-size: 2em; font-weight: bold" class="serif">Methodology</p>
+    <div class="container is-max-desktop">
+        <div class="hero-body">
+            <center>
+                  <img src="static/figs/pipeline.svg" title="" style="max-width:80%;vertical-align:top"/>
+            </center>
+        </div>
+      </div>
+    
+    <p style="font-size: 1.4em" class="serif">
+        Image animation aims to generate dynamic visual content from input static images. 
+        Diffusion models have become mainstream in image animation research due to their powerful generative capabilities, 
+        achieving remarkable success. However, maintaining consistency with the detailed information of the input static image over time 
+        (such as style, background, and object of the input static image) and ensuring smoothness in animated video narratives guided 
+        by textual prompts remain considerable challenges. In this paper, we propose a novel method called Cinemo, 
+        which can perform motion-controllable image animation with strong consistency. 
+        Our method introduces a novel framework focused on understanding the distribution of motion residuals, 
+        rather than directly generating subsequent frames. 
+        Additionally, an effective method based on the structural similarity index is proposed to control the motion intensity. 
+        Furthermore, we propose noise refinement based on discrete cosine transform to ensure layout consistency. 
+        These three strategies help Cinemo generate highly consistent and motion-controlled image animation results. 
+        Compared to previous methods, Cinemo offers simpler and more precise user control and better generative performance. 
+        Extensive experiments against several baseline methods, including both commercial tools and research approaches, 
+        across multiple metrics, underscore the effectiveness and superiority of our proposed approach.
+
+    
+</div>
+
+
+
+
+
+<div class="content">
+  <p style="text-align:left; font-size: 2em; font-weight: bold" class="serif">Comparisons</p>
+  <p style="font-size: 1.4em" class="serif">
+    We shows the animated results generated by different methods using the prompt "girl smiling".<br>
+    We qualitatively compare our method with both commercial tools and research approaches,
+    including Pika Labs, Genmo, ConsistI2V, DynamiCrafter, I2VGen-XL, SEINE, PIA and SVD. 
+  </p>
+  <font size="+1">
+    <p class="serif" style="color: red; font-weight: bold">Click to play the following animations!</p>
+  </font>
+<!--  <span style="color: red; font-weight: bold"></span>-->
+  <!-- <img class="summary-img" src="figs/framework.jpg" style="width:100%;"> <br> -->
+
+  <div class="row">
+    <div class="col-gallery" style="width: 20%;">
+      <img src="static/comparisons/0.jpg" style="width: 100%;">
+      <h3>Input Image</h3>
+    </div>
+    <div class="col-gallery" style="width: 20%;">
+      <video class="clickplay" width="100%" autoplay loop>
+        <source src="static/comparisons/girl_smiling_pika_resized.mp4" type="video/mp4">
+      </video>
+      <h3>Pika Labs</h3>
+    </div>
+    <div class="col-gallery" style="width: 20%;">
+      <video class="clickplay" width="100%" autoplay loop>
+        <source src="static/comparisons/girl_smiling_genmo_resized.mp4" type="video/mp4">
+      </video>
+      <h3>Genmo</h3>
+    </div>
+    <div class="col-gallery" style="width: 20%;">
+      <video class="clickplay" width="100%" autoplay loop>
+        <source src="static/comparisons/girl_smiling_consisi2v_resized.mp4" type="video/mp4">
+      </video>
+      <h3>ConsistI2V</h3>
+    </div>
+
+  </div>
+
+  <div class="row">
+    <div class="col-gallery" style="width: 20%;">
+      <h3> </h3>
+      <img src="static/figs/blank.jpg" style="width: 100%;">
+    </div>
+    <div class="col-gallery" style="width: 20%;">
+      <video class="clickplay" width="100%" autoplay loop>
+        <source src="static/comparisons/girl_smiling_dynamicrafter.mp4" type="video/mp4">
+      </video>
+      <h3>DynamiCrafter</h3>
+    </div>
+    <div class="col-gallery" style="width: 20%;">
+      <video class="clickplay" width="100%" autoplay loop>
+        <source src="static/comparisons/girl_smiling_i2vgen-xl_resized.mp4" type="video/mp4">
+      </video>
+      <h3>I2VGen-XL</h3>
+    </div>
+    <div class="col-gallery" style="width: 20%;">
+      <video class="clickplay" width="100%" autoplay loop>
+        <source src="static/comparisons/girl_smiling_seine.mp4" type="video/mp4">
+      </video>
+      <h3>SEINE</h3>
+    </div>
+
+    <div class="row">
+        <div class="col-gallery" style="width: 20%;">
+          <h3> </h3>
+          <img src="static/figs/blank.jpg" style="width: 100%;">
+        </div>
+        <div class="col-gallery" style="width: 20%;">
+          <video class="clickplay" width="100%" autoplay loop>
+            <source src="static/comparisons/girl_smiling_pia_resized.mp4" type="video/mp4">
+          </video>
+          <h3>PIA</h3>
+        </div>
+        <div class="col-gallery" style="width: 20%;">
+          <video class="clickplay" width="100%" autoplay loop>
+            <source src="static/comparisons/girl_smiling_seine.mp4" type="video/mp4">
+          </video>
+          <h3>SVD</h3>
+        </div>
+        <div class="col-gallery" style="width: 20%;">
+          <video class="clickplay" width="100%" autoplay loop>
+            <source src="static/comparisons/girl_smiling_ours.mp4" type="video/mp4">
+          </video>
+          <h3>Ours</h3>
+        </div>
+    </div>
+
+  </div>
+</div>
+
+  <!-- <hr style="margin: 30px 0;"> -->
+
+
+
+
+<div class="content">
+  <p style="text-align:left; font-size: 2em; font-weight: bold" class="serif">Analysis</p>
+  <p style="font-size: 1.4em" class="serif">
+    The ablation studies and potential applications are presented here.
+  </p>
+  <p style="text-align:left; font-size: 1.6em; font-weight: bold" class="serif">Motion intensity controllability</p>
+  <p style="font-size: 1.4em" class="serif">
+    We demonstrate that our method can finely control the motion intensity of animated videos. The prompt is "shark swimming".
+  </p>
+  <font size="+1">
+    <p class="serif" style="color: red; font-weight: bold">Click to play the following animations!</p>
+  </font>
+
+  <div class="row">
+    <div class="col-gallery" style="width: 20%;">
+      <img src="static/motion_bucket/0.jpg" style="width: 100%;">
+      <h3>Input Image</h3>
+    </div>
+    <div class="col-gallery" style="width: 20%;">
+      <video class="clickplay" width="100%" autoplay loop>
+        <source src="static/motion_bucket/0000.mp4" type="video/mp4">
+      </video>
+      <h3>b=0</h3>
+    </div>
+    <div class="col-gallery" style="width: 20%;">
+      <video class="clickplay" width="100%" autoplay loop>
+        <source src="static/motion_bucket/0003.mp4" type="video/mp4">
+      </video>
+      <h3>b=3</h3>
+    </div>
+    <div class="col-gallery" style="width: 20%;">
+      <video class="clickplay" width="100%" autoplay loop>
+        <source src="static/motion_bucket/0006.mp4" type="video/mp4">
+      </video>
+      <h3>b=6</h3>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-gallery" style="width: 20%;">
+      <video class="clickplay" width="100%" autoplay loop>
+        <source src="static/motion_bucket/0009.mp4" type="video/mp4">
+      </video>
+      <h3>b=9</h3>
+    </div>
+    <div class="col-gallery" style="width: 20%;">
+      <video class="clickplay" width="100%" autoplay loop>
+        <source src="static/motion_bucket/0012.mp4" type="video/mp4">
+      </video>
+      <h3>b=12</h3>
+    </div>
+    <div class="col-gallery" style="width: 20%;">
+      <video class="clickplay" width="100%" autoplay loop>
+        <source src="static/motion_bucket/0015.mp4" type="video/mp4">
+      </video>
+      <h3>b=15</h3>
+    </div>
+    <div class="col-gallery" style="width: 20%;">
+      <video class="clickplay" width="100%" autoplay loop>
+        <source src="static/motion_bucket/0018.mp4" type="video/mp4">
+      </video>
+      <h3>b=18</h3>
+    </div>
+  </div>
+
+
+  <hr style="margin: 30px 0;">
+
+  <p style="text-align:left; font-size: 1.6em; font-weight: bold" class="serif">Effectiveness of DCTInit</p>
+  <p style="font-size: 1.4em" class="serif">
+    We demonstrate that the proposed DCTInit can stabilize the video generation process and effectively mitigate sudden motion change; 
+    the DCT frequency domain decomposition method can effectively mitigate the color inconsistency issues caused by the FFT frequency domain decomposition method.
+    The first and second lines prompt "woman smiling" and "robot dancing", respectively
+  </p>
+
+  <div class="row">
+    <div class="col-gallery" style="width: 20%;">
+      <img src="static/effect_dctinit/0.jpg" style="width: 100%;">
+      <h3>Input Image</h3>
+    </div>
+    <div class="col-gallery" style="width: 20%;">
+      <video class="clickplay" width="100%" autoplay loop>
+        <source src="static/effect_dctinit/wo_dctinit.mp4" type="video/mp4">
+      </video>
+      <h3>WO DCTInit</h3>
+    </div>
+    <div class="col-gallery" style="width: 20%;">
+      <video class="clickplay" width="100%" autoplay loop>
+        <source src="static/effect_dctinit/w_dctinit.mp4" type="video/mp4">
+      </video>
+      <h3>Ours</h3>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-gallery" style="width: 20%;">
+      <img src="static/dct_vs_fft/0.jpg" style="width: 100%;">
+      <h3>Input Image</h3>
+    </div>
+    <div class="col-gallery" style="width: 20%;">
+      <video class="clickplay" width="100%" autoplay loop>
+        <source src="static/dct_vs_fft/fft.mp4" type="video/mp4">
+      </video>
+      <h3>FFT</h3>
+    </div>
+    <div class="col-gallery" style="width: 20%;">
+      <video class="clickplay" width="100%" autoplay loop>
+        <source src="static/dct_vs_fft/dct.mp4" type="video/mp4">
+      </video>
+      <h3>Ours</h3>
+    </div>
+  </div>
+
+  <hr style="margin: 30px 0;">
+
+  <p style="text-align:left; font-size: 1.6em; font-weight: bold" class="serif">Motion control by prompt</p>
+  <p style="font-size: 1.4em" class="serif">
+    We demonstrate that our method does not rely on complex guiding instructions and even simple textual prompts can yield satisfactory visual effects.
+  </p>
+
+  <div class="row">
+    <div class="col-gallery" style="width: 20%;">
+      <img src="static/motion_control/0.jpg" style="width: 100%;">
+      <h3>Input Image</h3>
+    </div>
+    <div class="col-gallery" style="width: 20%;">
+      <video class="clickplay" width="100%" autoplay loop>
+        <source src="static/motion_control/fireworks.mp4" type="video/mp4">
+      </video>
+      <h3>"Fireworks"</h3>
+    </div>
+    <div class="col-gallery" style="width: 20%;">
+      <video class="clickplay" width="100%" autoplay loop>
+        <source src="static/motion_control/leaves_swaying.mp4" type="video/mp4">
+      </video>
+      <h3>"Leaves Swaying"</h3>
+    </div>
+    <div class="col-gallery" style="width: 20%;">
+        <video class="clickplay" width="100%" autoplay loop>
+          <source src="static/motion_control/lightning.mp4" type="video/mp4">
+        </video>
+        <h3>"Lightning"</h3>
+      </div>
+  </div>
+
+  <hr style="margin: 30px 0;">
+
+  <p style="text-align:left; font-size: 1.6em; font-weight: bold" class="serif">Motion transfer/Video editing</p>
+  <p style="font-size: 1.4em" class="serif">
+    We demonstrate that our proposed method can also be applied to motion transfer and video editing. We use the off-the-shelf image editing method to edit the first frame of the input video.
+  </p>
+
+  <div class="row">
+    <div class="col-gallery" style="width: 20%;">
+        <h3>Original video</h3>
+        <video class="clickplay" width="100%" autoplay loop>
+          <source src="static/video_editing/a_man_walking_on_the_beach/a_man_walking_on_the_beach.mp4" type="video/mp4">
+        </video>
+      </div>
+    <div class="col-gallery" style="width: 20%;">
+      <h3>First frame</h3>
+      <img src="static/video_editing/a_man_walking_on_the_beach/0.jpg" style="width: 100%;">
+    </div>
+    <div class="col-gallery" style="width: 20%;">
+        <h3>Edited first frame</h3>
+        <img src="static/video_editing/a_man_walking_in_the_park/0.jpg" style="width: 100%;">
+      </div>
+    <div class="col-gallery" style="width: 20%;">
+      <h3>Output video</h3>
+      <video class="clickplay" width="100%" autoplay loop>
+        <source src="static/video_editing/a_man_walking_in_the_park/a_man_walking_in_the_park.mp4" type="video/mp4">
+      </video>
+    </div>
+  </div>
+
+    <div class="row">
+        <div class="col-gallery" style="width: 20%;">
+            <video class="clickplay" width="100%" autoplay loop>
+              <source src="static/video_editing/a_corgi_walking_in_the_park_at_sunrise_oil_painting_style/a_corgi_walking_in_the_park_at_sunrise_oil_painting_style.mp4" type="video/mp4">
+            </video>
+          </div>
+        <div class="col-gallery" style="width: 20%;">
+          <img src="static/video_editing/a_corgi_walking_in_the_park_at_sunrise_oil_painting_style/0.jpg" style="width: 100%;">
+        </div>
+        <div class="col-gallery" style="width: 20%;">
+            <img src="static/video_editing/editing_a_corgi_walking_in_the_park_at_sunrise,_oil_painting_style/0.jpg" style="width: 100%;">
+          </div>
+        <div class="col-gallery" style="width: 20%;">
+          <video class="clickplay" width="100%" autoplay loop>
+            <source src="static/video_editing/editing_a_corgi_walking_in_the_park_at_sunrise,_oil_painting_style/editing_a_corgi_walking_in_the_park_at_sunrise,_oil_painting_style.mp4" type="video/mp4">
+          </video>
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<div class="content">
+    <p style="text-align:left; font-size: 2em; font-weight: bold" class="serif">Gallery</p>
+    <p style="font-size: 1.4em" class="serif">
+        More animation results generated by our method are shown here.<br>
+    </p>
+    <font size="+1">
+      <p class="serif" style="color: red; font-weight: bold">Click to play results from Cinemo!</p>
+    </font>
+    <!-- <img class="summary-img" src="figs/framework.jpg" style="width:100%;"> <br> -->
+    <div class="row">
+      <div class="col-gallery" style="width: 16.6%;">
+        <img class="case-image" src="static/gallery/big_cat_yawning/0.jpg" alt="Case 5 Image" style="width: 100%;">
+      </div>
+      
+      <div class="col-gallery" style="width: 16.6%;">
+        <video class="clickplay" width="100%" autoplay loop>
+          <source src="static/gallery/big_cat_yawning/big_cat_yawning.mp4" type="video/mp4">
+        </video>
+      </div>
+      <!-- First Row -->
+      
+      <div class="col-gallery" style="width: 16.6%;">
+        <img class="case-image" src="static/gallery/downward_flow_of_waterfall/0.jpg" alt="Case 5 Image" style="width: 100%;">
+      </div>
+      <div class="col-gallery" style="width: 16.6%;">
+        <video class="clickplay" width="100%" autoplay loop>
+          <source src="static/gallery/downward_flow_of_waterfall/downward_flow_of_waterfall.mp4" type="video/mp4">
+        </video>
+      </div>
+  
+      <div class="col-gallery" style="width: 16.6%;">
+        <img class="case-image" src="static/gallery/bubbles__floating_upwards/0.jpg" alt="Case 5 Image" style="width: 100%;">
+      </div>
+      <div class="col-gallery" style="width: 16.6%;">
+        <video class="clickplay" width="100%" autoplay loop>
+          <source src="static/gallery/bubbles__floating_upwards/bubbles__floating_upwards.mp4" type="video/mp4">
+        </video>
+      </div>
+  
+    </div>
+  
+    <div class="row">
+      <div class="head" >
+        <h3 >"Big Cat Yawning"</h3>
+      </div>
+      <div class="head">
+        <h3>"Downward Flow of Waterfall"</h3>
+      </div>
+      <div class="head">
+        <h3>"Bubbles Floating Upwards"</h3>
+      </div>
+    </div>
+    
+    <div class="row">
+  
+      <div class="col-gallery" style="width: 16.6%;">
+        <img class="case-image" src="static/gallery/car_driving_on_the_road/0.jpg" alt="Case 5 Image" style="width: 100%;">
+      </div>
+      <!-- Second Row -->
+      <div class="col-gallery" style="width: 16.6%;">
+        <video class="clickplay" width="100%" autoplay loop>
+          <source src="static/gallery/car_driving_on_the_road/car_driving_on_the_road.mp4" type="video/mp4">
+        </video>
+      </div>
+  
+      <div class="col-gallery" style="width: 16.6%;">
+        <img class="case-image" src="static/gallery/city_lightning/0.jpg" alt="Case 5 Image" style="width: 100%;">
+      </div>
+      <div class="col-gallery" style="width: 16.6%;">
+        <video class="clickplay" width="100%" autoplay loop>
+          <source src="static/gallery/city_lightning/city_lightning.mp4" type="video/mp4">
+        </video>
+      </div>
+
+      <div class="col-gallery" style="width: 16.6%;">
+        <img class="case-image" src="static/gallery/clouds_in_the_sky_moving_slowly/0.jpg" alt="Case 5 Image" style="width: 100%;">
+      </div>
+      <div class="col-gallery" style="width: 16.6%;">
+        <video class="clickplay" width="100%" autoplay loop>
+          <source src="static/gallery/clouds_in_the_sky_moving_slowly/clouds_in_the_sky_moving_slowly.mp4" type="video/mp4">
+        </video>
+      </div>
+    </div>
+  
+    <div class="row">
+      <div class="head" >
+        <h3 >"Car Driving on the Road"</h3>
+      </div>
+      <div class="head">
+        <h3>"City Lightning"</h3>
+      </div>
+      <div class="head">
+        <h3>"Clouds in the Sky Moving Slowly"</h3>
+      </div>
+    </div>
+    
+    <div class="row">
+      <div class="col-gallery" style="width: 16.6%;">
+        
+        <img class="case-image" src="static/gallery/dragon_glowing_eyes/0.jpg" alt="Case 5 Image" style="width: 100%;">
+      </div>
+      <!-- Third Row -->
+      <div class="col-gallery" style="width: 16.6%;">
+        <video class="clickplay" width="100%" autoplay loop>
+          <source src="static/gallery/dragon_glowing_eyes/dragon_glowing_eyes.mp4" type="video/mp4">
+        </video>
+      </div>
+
+      <div class="col-gallery" style="width: 16.6%;">
+        <img class="case-image" src="static/gallery/ducks_swimming_on_the_water/0.jpg" alt="Case 5 Image" style="width: 100%;">
+      </div>
+      <div class="col-gallery" style="width: 16.6%;">
+        <video class="clickplay" width="100%" autoplay loop>
+          <source src="static/gallery/ducks_swimming_on_the_water/ducks_swimming_on_the_water.mp4" type="video/mp4">
+        </video>
+      </div>
+
+      <div class="col-gallery" style="width: 16.6%;">
+        <img class="case-image" src="static/gallery/flames_burning_and_light_snow_falling/0.jpg" alt="Case 5 Image" style="width: 100%;">
+      </div>
+      <div class="col-gallery" style="width: 16.6%;">
+        <video class="clickplay" width="100%" autoplay loop>
+          <source src="static/gallery/flames_burning_and_light_snow_falling/flames_burning_and_light_snow_falling.mp4" type="video/mp4">
+        </video>
+      </div>
+  
+    </div>
+  
+    <div class="row">
+      <div class="head" >
+        <h3 >"Dragon Glowing Eyes"</h3>
+      </div>
+      <div class="head">
+        <h3>"Ducks Swimming on the Water"</h3>
+      </div>
+      <div class="head">
+        <h3>"Flames Burning and Light Snow Falling"</h3>
+      </div>
+    </div>
+  
+  
+    <div class="row">
+      <div class="col-gallery" style="width: 16.6%;">
+        
+        <img class="case-image" src="static/gallery/people_walking/0.jpg" alt="Case 5 Image" style="width: 100%;">
+      </div>
+      <!-- Third Row -->
+      <div class="col-gallery" style="width: 16.6%;">
+        <video class="clickplay" width="100%" autoplay loop>
+          <source src="static/gallery/people_walking/people_walking.mp4" type="video/mp4">
+        </video>
+      </div>
+
+      <div class="col-gallery" style="width: 16.6%;">
+        <img class="case-image" src="static/gallery/planet_rotating/0.jpg" alt="Case 5 Image" style="width: 100%;">
+      </div>
+      <div class="col-gallery" style="width: 16.6%;">
+        <video class="clickplay" width="100%" autoplay loop>
+          <source src="static/gallery/planet_rotating/planet_rotating.mp4" type="video/mp4">
+        </video>
+      </div>
+
+      <div class="col-gallery" style="width: 16.6%;">
+        <img class="case-image" src="static/gallery/river_flowing/0.jpg" alt="Case 5 Image" style="width: 100%;">
+      </div>
+      <div class="col-gallery" style="width: 16.6%;">
+        <video class="clickplay" width="100%" autoplay loop>
+          <source src="static/gallery/river_flowing/river_flowing.mp4" type="video/mp4">
+        </video>
+      </div>
+  
+    </div>
+  
+    <div class="row">
+      <div class="head" >
+        <h3 >"People Walking"</h3>
+      </div>
+      <div class="head">
+        <h3>"Planet Rotating"</h3>
+      </div>
+      <div class="head">
+        <h3>"River Flowing"</h3>
+      </div>
+    </div>
+  
+  
+    <div class="row">
+      <div class="col-gallery" style="width: 16.6%;">
+        
+        <img class="case-image" src="static/gallery/shark_falling_into_the_sea/0.jpg" alt="Case 5 Image" style="width: 100%;">
+      </div>
+      <!-- Third Row -->
+      <div class="col-gallery" style="width: 16.6%;">
+        <video class="clickplay" width="100%" autoplay loop>
+          <source src="static/gallery/shark_falling_into_the_sea/shark_falling_into_the_sea.mp4" type="video/mp4">
+        </video>
+      </div>
+
+      <div class="col-gallery" style="width: 16.6%;">
+        <img class="case-image" src="static/gallery/snowman_waving_his_hand/0.jpg" alt="Case 5 Image" style="width: 100%;">
+      </div>
+      <div class="col-gallery" style="width: 16.6%;">
+        <video class="clickplay" width="100%" autoplay loop>
+          <source src="static/gallery/snowman_waving_his_hand/snowman_waving_his_hand.mp4" type="video/mp4">
+        </video>
+      </div>
+
+      <div class="col-gallery" style="width: 16.6%;">
+        <img class="case-image" src="static/gallery/tank_moving/0.jpg" alt="Case 5 Image" style="width: 100%;">
+      </div>
+      <div class="col-gallery" style="width: 16.6%;">
+        <video class="clickplay" width="100%" autoplay loop>
+          <source src="static/gallery/tank_moving/tank_moving.mp4" type="video/mp4">
+        </video>
+      </div>
+  
+    </div>
+  
+    <div class="row">
+      <div class="head" >
+        <h3 >"Shark Falling into the Sea"</h3>
+      </div>
+      <div class="head">
+        <h3>"Snowman Waving His Hand"</h3>
+      </div>
+      <div class="head">
+        <h3>"Tank Moving"</h3>
+      </div>
+    </div>
+  
+  
+    <div class="row">
+      <div class="col-gallery" style="width: 16.6%;">
+        
+        <img class="case-image" src="static/gallery/tree_swaying/0.jpg" alt="Case 5 Image" style="width: 100%;">
+      </div>
+      <!-- Third Row -->
+      <div class="col-gallery" style="width: 16.6%;">
+        <video class="clickplay" width="100%" autoplay loop>
+          <source src="static/gallery/tree_swaying/tree_swaying.mp4" type="video/mp4">
+        </video>
+      </div>
+
+      <div class="col-gallery" style="width: 16.6%;">
+        <img class="case-image" src="static/gallery/woman_blinking/0.jpg" alt="Case 5 Image" style="width: 100%;">
+      </div>
+      <div class="col-gallery" style="width: 16.6%;">
+        <video class="clickplay" width="100%" autoplay loop>
+          <source src="static/gallery/woman_blinking/woman_blinking.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="col-gallery" style="width: 16.6%;">
+        
+        <img class="case-image" src="static/gallery/woman_walking/0.jpg" alt="Case 5 Image" style="width: 100%;">
+      </div>
+      <div class="col-gallery" style="width: 16.6%;">
+        <video class="clickplay" width="100%" autoplay loop>
+          <source src="static/gallery/woman_walking/woman_walking.mp4" type="video/mp4">
+        </video>
+      </div>
+  
+    </div>
+  
+    <div class="row">
+      <div class="head" >
+        <h3 >"Tree Swaying"</h3>
+      </div>
+      <div class="head">
+        <h3>"Woman Blinking"</h3>
+      </div>
+      <div class="head">
+        <h3>"Woman Walking"</h3>
+      </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-gallery" style="width: 16.6%;">
+          
+          <img class="case-image" src="static/gallery/sea_swell/0.jpg" alt="Case 5 Image" style="width: 100%;">
+        </div>
+        <!-- Third Row -->
+        <div class="col-gallery" style="width: 16.6%;">
+          <video class="clickplay" width="100%" autoplay loop>
+            <source src="static/gallery/sea_swell/sea_swell.mp4" type="video/mp4">
+          </video>
+        </div>
+  
+        <div class="col-gallery" style="width: 16.6%;">
+          <img class="case-image" src="static/gallery/space_station_moving/0.jpg" alt="Case 5 Image" style="width: 100%;">
+        </div>
+        <div class="col-gallery" style="width: 16.6%;">
+          <video class="clickplay" width="100%" autoplay loop>
+            <source src="static/gallery/space_station_moving/space_station_moving.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="col-gallery" style="width: 16.6%;">
+          
+          <img class="case-image" src="static/gallery/girl_dancing_under_the_stars/0.jpg" alt="Case 5 Image" style="width: 100%;">
+        </div>
+        <div class="col-gallery" style="width: 16.6%;">
+          <video class="clickplay" width="100%" autoplay loop>
+            <source src="static/gallery/girl_dancing_under_the_stars/girl_dancing_under_the_stars.mp4" type="video/mp4">
+          </video>
+        </div>
+    
+      </div>
+    
+      <div class="row">
+        <div class="head" >
+          <h3 >"Sea Swell"</h3>
+        </div>
+        <div class="head">
+          <h3>"Space Station Moving"</h3>
+        </div>
+        <div class="head">
+          <h3>"Girl Dancing under the Stars"</h3>
+        </div>
+      </div>
+
+    
+  
+   
+  </div>
+
+
+<div class="content">
+  <p class="serif">
+    Project page template is borrowed from <a href="https://dreambooth.github.io/">DreamBooth</a>.
+  </p>
+</div>
+
+</body>
+
+<script>
+var videos = document.getElementsByClassName("clickplay");
+for (var i = 0; i < videos.length; i++) {
+  videos[i].addEventListener("click", function() {
+    this.play();
+  });
+  videos[i].addEventListener("ended", function() {
+    this.pause();
+    this.currentTime = 0;
+  });
+}
+</script>
+
+</html>
